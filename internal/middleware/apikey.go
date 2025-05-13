@@ -27,6 +27,8 @@ func APIKey(signer *services.Signer) gin.HandlerFunc {
             return
         }
 
+        
+
         //  require api-key header
         provided := c.GetHeader("X-API-Key")
         if strings.TrimSpace(provided) == "" {

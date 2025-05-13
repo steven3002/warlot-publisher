@@ -41,7 +41,17 @@ func Upload(c *gin.Context) {
     resp := &wmodels.UploadResponse{
         FileName: file.Filename,
         Timestamp: time.Now().Format(time.RFC3339),
+        Deletable: false,
     }
+
+
+    deletableStr := c.DefaultPostForm("deletable", "false")
+    deletable, err := strconv.ParseBool(deletableStr)
+    if err != nil {
+        // invalid flag → default to false
+        deletable = false
+    }
+    resp.Deletable = deletable
 
 
 
@@ -56,7 +66,7 @@ func Upload(c *gin.Context) {
 		cycle = 0
 	}
 
-    rawOutput, err := walrus.Store(tmp, int(epochs), "testnet")
+    rawOutput, err := walrus.Store(tmp, int(epochs), "testnet", deletable)
     clean := utils.RemoveANSI(rawOutput)
 
     resp.Output = utils.ParseSuccessInfo(clean)

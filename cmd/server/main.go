@@ -44,6 +44,11 @@ func main() {
     protected.Use(middleware.APIKey(signer))
     protected.POST("/upload", handlers.Upload)
 
+    admin := r.Group("/admin", middleware.AdminAuth(os.Getenv("ADMIN_TOKEN")))
+    admin.POST("/upload", handlers.UploadAdmin)
+    admin.POST("/replace", handlers.ReplaceAdmin)
+
+
     port := os.Getenv("PORT")
     if port == "" {
         port = "8080"

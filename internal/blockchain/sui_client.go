@@ -56,9 +56,9 @@ func (c *Client) GetAPIKey(ctx context.Context, address string) (string, error) 
 		return "", fmt.Errorf("no registry object for address %s", address)
 	}
 	fields := rsp.Data[0].Data.Content.Fields
-	val, ok := fields["apikey"]
+	val, ok := fields["warlot_sign_apikey"]
 	if !ok {
-		return "", fmt.Errorf("apikey field missing on-chain")
+		return "", fmt.Errorf("warlot_sign_apikey field missing on-chain")
 	}
 	return fmt.Sprintf("%v", val), nil
 }

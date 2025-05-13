@@ -36,6 +36,7 @@ type UploadResponse struct {
 	
 	TxDigest      string                           `json:"tx_digest,omitempty"`
 	MoveEffects   *blockmodels.SuiEffects `json:"move_effects,omitempty"`
+	Deletable     bool                `json:"deletable,omitempty"`
 
 }
 

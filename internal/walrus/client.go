@@ -8,8 +8,24 @@ import (
     "os/exec"
 )
 
-func Store(path string, epochs int, ctx string) (string, error) {
-    cmd := exec.Command("walrus", "store", path, "--epochs", fmt.Sprint(epochs), "--context", ctx)
+func Store(path string, epochs int, ctx string, deletable bool) (string, error) {
+
+      // Base args
+      args := []string{
+        "store",
+        path,
+        "--epochs", fmt.Sprint(epochs),
+        "--context", ctx,
+    }
+
+    // Only include --deletable when requested
+    if deletable {
+        args = append(args, "--deletable")
+    }
+
+    cmd := exec.Command("walrus", args...)
+
+ 
     stdout, _ := cmd.StdoutPipe()
     cmd.Stderr = cmd.Stdout
 
